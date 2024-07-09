@@ -21,7 +21,7 @@ val twoBallsOneBoxFrame = FrameElements(
         Particle(
             radius = 50.0,
             startingPosition = Vec(x = screenWidth / 3, y = 155.0),
-            startingVelocity = Vec(x = -200.0, y = 0.0)
+            startingVelocity = Vec(x = -300.0, y = 0.0)
         ),
     )
 )
