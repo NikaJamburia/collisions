@@ -5,6 +5,7 @@ import ge.nika.math.Vec
 class Particle (
     val radius: Double,
     val color: String = "White",
+    val mass: Double = 1.0,
     startingPosition: Vec,
     startingVelocity: Vec,
 ) {
@@ -22,8 +23,6 @@ class Particle (
 
     fun flipXVelocity(damping: Double = 1.0) {
         velocity = Vec(-velocity.x * damping, velocity.y)
-        println(position)
-
     }
 
     fun flipYVelocity(
@@ -31,6 +30,10 @@ class Particle (
         dampingY: Double = 1.0,
     ) {
         velocity = Vec(velocity.x * dampingX, -velocity.y * dampingY)
+    }
+
+    fun collidesWith(otherParticle: Particle): Boolean {
+        return this.position.distanceTo(otherParticle.position) <= radius + otherParticle.radius
     }
 
     val x: Double

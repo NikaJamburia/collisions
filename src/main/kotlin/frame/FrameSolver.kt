@@ -17,7 +17,23 @@ class FrameSolver(
             if (particle.isOutOfY()) {
                 particle.flipYVelocity()
             }
+
+            particles.forEach { otherParticle ->
+                if (otherParticle != particle) {
+                    if (particle.collidesWith(otherParticle)) {
+                        resolveCollision(particle, otherParticle)
+                    }
+                }
+            }
         }
+    }
+
+    private fun resolveCollision(particle: Particle, otherParticle: Particle) {
+        particle.flipXVelocity()
+        particle.flipYVelocity()
+
+        otherParticle.flipXVelocity()
+        otherParticle.flipYVelocity()
     }
 
     private fun Particle.isOutOfX(): Boolean = x !in xBoundsFor(this)
