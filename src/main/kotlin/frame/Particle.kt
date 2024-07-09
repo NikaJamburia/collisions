@@ -1,9 +1,10 @@
-package ge.nika
+package ge.nika.frame
 
 import ge.nika.math.Vec
 
 class Particle (
     val radius: Double,
+    val color: String = "White",
     startingPosition: Vec,
     startingVelocity: Vec,
 ) {
@@ -21,11 +22,15 @@ class Particle (
 
     fun flipXVelocity(damping: Double = 1.0) {
         velocity = Vec(-velocity.x * damping, velocity.y)
+        println(position)
+
     }
 
-    fun flipYVelocity(damping: Double = 1.0) {
-        velocity = Vec(velocity.x * damping, -velocity.y * damping)
-        println(velocity)
+    fun flipYVelocity(
+        dampingX: Double = 1.0,
+        dampingY: Double = 1.0,
+    ) {
+        velocity = Vec(velocity.x * dampingX, -velocity.y * dampingY)
     }
 
     val x: Double
