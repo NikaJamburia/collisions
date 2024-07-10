@@ -16,9 +16,10 @@ class Particle (
 
     val acceleration: Vec = gravity
 
-    fun updateDynamics(time: Double) {
-        position += velocity * time
-        velocity += acceleration * time
+    fun updateDynamics(dt: Double, newVelocity: Vec? = null) {
+        velocity = newVelocity ?: velocity
+        position += velocity * dt
+        velocity += acceleration * dt
     }
 
     fun flipXVelocity(damping: Double = 1.0) {

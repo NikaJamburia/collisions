@@ -8,16 +8,21 @@ data class Vec(
     val x: Double,
     val y: Double,
 ) {
-    operator fun times(number: Double): Vec {
-        return Vec(x * number, y * number)
-    }
+    operator fun times(number: Double): Vec = Vec(x * number, y * number)
 
-    operator fun plus(other: Vec): Vec {
-        return Vec(
-            x = x + other.x,
-            y = y + other.y
-        )
-    }
+    operator fun plus(other: Vec): Vec = Vec(
+        x = x + other.x,
+        y = y + other.y
+    )
+
+    operator fun minus(other: Vec): Vec = Vec(
+        x = x - other.x,
+        y = y - other.y
+    )
+
+    fun dot(other: Vec): Double = (x * other.x) + (y * other.y)
+
+    fun magnitude(): Double = sqrt(x*x + y*y)
 
     fun distanceTo(other: Vec): Double {
         val cat1 = abs(this.x - other.x)

@@ -1,5 +1,8 @@
 package ge.nika.frame
 
+import ge.nika.math.Vec
+import kotlin.math.pow
+
 class FrameSolver(
     private val frameXBounds: ClosedRange<Double>,
     private val frameYBounds: ClosedRange<Double>,
@@ -18,22 +21,30 @@ class FrameSolver(
                 particle.flipYVelocity()
             }
 
+
             particles.forEach { otherParticle ->
                 if (otherParticle != particle) {
                     if (particle.collidesWith(otherParticle)) {
-                        resolveCollision(particle, otherParticle)
+                        val newVelocity1 = particle.calculateVelocityAfterCollisionWith(otherParticle)
+                        val newVelocity2 = otherParticle.calculateVelocityAfterCollisionWith(particle)
+
+                        particle.updateDynamics(dt = dt, newVelocity = newVelocity1)
+                        otherParticle.updateDynamics(dt = dt, newVelocity = newVelocity2)
                     }
                 }
             }
         }
+
     }
 
-    private fun resolveCollision(particle: Particle, otherParticle: Particle) {
-        particle.flipXVelocity()
-        particle.flipYVelocity()
-
-        otherParticle.flipXVelocity()
-        otherParticle.flipYVelocity()
+    private fun Particle.calculateVelocityAfterCollisionWith(otherParticle: Particle): Vec {
+        val positionDiff = position - otherParticle.position
+        val massDiff = 2 * otherParticle.mass / (mass + otherParticle.mass)
+        val velocityDiff = velocity - otherParticle.velocity
+        val idk = velocityDiff.dot(positionDiff) / positionDiff.magnitude().pow(2)
+        val result = velocity - (positionDiff * massDiff * idk)
+        println(result)
+        return result
     }
 
     private fun Particle.isOutOfX(): Boolean = x !in xBoundsFor(this)
