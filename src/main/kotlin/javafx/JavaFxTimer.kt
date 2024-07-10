@@ -1,6 +1,7 @@
 package ge.nika.javafx
 
 import ge.nika.*
+import ge.nika.collision.ElasticCollisionResolver
 import ge.nika.frame.FrameElements
 import ge.nika.frame.FrameSolver
 import ge.nika.frame.Particle
@@ -17,7 +18,8 @@ class JavaFxTimer(
     private val frameSolver = FrameSolver(
         frameXBounds = frameElements.container.getXBounds(),
         frameYBounds = frameElements.container.getYBounds(),
-        particles = displayCircles.keys.toList()
+        particles = displayCircles.keys.toList(),
+        collisionResolver = ElasticCollisionResolver(),
     )
 
     override fun handle(now: Long) {
