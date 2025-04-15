@@ -23,7 +23,8 @@ val twoBallsOneBoxFrame = FrameElements(
             radius = 50.0,
             startingPosition = Vec(x = screenWidth - 250.0, screenHeight / 2),
             startingVelocity = Vec(x = -500.0, y = 0.0),
-            mass = 1.0,
+            mass = 3.0,
+            printOnUpdate = true,
         ),
     )
 )

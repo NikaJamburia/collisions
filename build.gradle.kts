@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.23"
     id("org.openjfx.javafxplugin") version "0.1.0"
-
+    id("application")
 }
 
 group = "ge.nika"
@@ -39,4 +39,8 @@ tasks.withType<JavaExec> {
 javafx {
     version = javafxVersion
     modules = listOf("javafx.base", "javafx.controls", "javafx.graphics")
+}
+
+application {
+    mainClass = "MainKt"
 }

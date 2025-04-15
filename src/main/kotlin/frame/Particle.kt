@@ -8,7 +8,8 @@ class Particle (
     val mass: Double = 1.0,
     startingPosition: Vec,
     startingVelocity: Vec,
-) {
+    val printOnUpdate: Boolean = false,
+    ) {
     var position: Vec = startingPosition
         private set
     var velocity: Vec = startingVelocity
@@ -20,6 +21,10 @@ class Particle (
         velocity = newVelocity ?: velocity
         position += velocity * dt
         velocity += acceleration * dt
+        if (printOnUpdate) {
+//            println(velocity)
+            println(position)
+        }
     }
 
     fun flipXVelocity(damping: Double = 1.0) {

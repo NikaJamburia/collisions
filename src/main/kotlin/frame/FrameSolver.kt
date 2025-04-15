@@ -8,19 +8,23 @@ class FrameSolver(
     private val particles: List<Particle>,
     private val collisionResolver: CollisionResolver,
 ) {
+
+    private val particleXBounds: Map<Particle, ClosedRange<Double>> = particles.associateWith {
+        (frameXBounds.start + it.radius) .. (frameXBounds.endInclusive - it.radius)
+    }
+    
+    private val particleYBounds: Map<Particle, ClosedRange<Double>> = particles.associateWith {
+        (frameYBounds.start + it.radius)..(frameYBounds.endInclusive - it.radius)
+    }
+
     fun updateParticleDynamics(fps: Double) {
         val dt = 1 / fps
 
         particles.forEach { particle ->
             particle.updateDynamics(dt)
 
-            if (particle.isOutOfX()) {
-                particle.flipXVelocity()
-            }
-            if (particle.isOutOfY()) {
-                particle.flipYVelocity()
-            }
-
+            particle.bounceOfXWalls()
+            particle.bounceOfYWalls()
 
             particles.forEach { otherParticle ->
                 if (otherParticle != particle) {
@@ -36,12 +40,36 @@ class FrameSolver(
 
     }
 
-    private fun Particle.isOutOfX(): Boolean = x !in xBoundsFor(this)
-    private fun Particle.isOutOfY(): Boolean = y !in yBoundsFor(this)
+    private fun Particle.bounceOfXWalls() {
+        val xBounds = particleXBounds[this] ?: error("No bounds defined for a particle")
+        when {
+            x <= xBounds.start -> {
+                if (velocity.x < 0) {
+                    flipXVelocity()
+                }
+            }
 
-    private fun xBoundsFor(particle: Particle): ClosedRange<Double> =
-        (frameXBounds.start + particle.radius) .. (frameXBounds.endInclusive - particle.radius)
+            x >= xBounds.endInclusive -> {
+                if (velocity.x > 0) {
+                    flipXVelocity()
+                }
+            }
+        }
+    }
 
-    private fun yBoundsFor(particle: Particle): ClosedRange<Double> =
-        (frameYBounds.start + particle.radius) .. (frameYBounds.endInclusive - particle.radius)
+    private fun Particle.bounceOfYWalls() {
+        val yBounds = particleYBounds[this] ?: error("No bounds defined for a particle")
+        when {
+            y <= yBounds.start -> {
+                if (velocity.y < 0) {
+                    flipYVelocity()
+                }
+            }
+            y >= yBounds.endInclusive -> {
+                if (velocity.y > 0) {
+                    flipYVelocity()
+                }
+            }
+        }
+    }
 }
