@@ -20,6 +20,17 @@ data class Container(
                 fillColor = screenFillColor,
             )
         }
+
+        fun centered(width: Number, height: Number, color: String = "lightgreen"): Container {
+            val widthD = width.toDouble()
+            val heightD = height.toDouble()
+            return Container(
+                position = Vec((screenWidth - widthD) / 2.0, (screenHeight - heightD) / 2.0),
+                width = widthD,
+                height = heightD,
+                fillColor = color
+            )
+        }
     }
 
     fun getXBounds(): ClosedRange<Double> = position.x..width + position.x

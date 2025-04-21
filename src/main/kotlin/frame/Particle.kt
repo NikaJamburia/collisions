@@ -6,6 +6,7 @@ class Particle (
     val radius: Double,
     val color: String = "White",
     val mass: Double = 1.0,
+    val acceleration: Vec = gravity,
     startingPosition: Vec,
     startingVelocity: Vec,
     val printOnUpdate: Boolean = false,
@@ -15,15 +16,12 @@ class Particle (
     var velocity: Vec = startingVelocity
         private set
 
-    val acceleration: Vec = gravity
-
     fun updateDynamics(dt: Double, newVelocity: Vec? = null) {
         velocity = newVelocity ?: velocity
         position += velocity * dt
         velocity += acceleration * dt
         if (printOnUpdate) {
-//            println(velocity)
-            println(position)
+            println(velocity)
         }
     }
 
